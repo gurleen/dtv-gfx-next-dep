@@ -23,7 +23,9 @@
   let info = {
     period: "1st",
     clock: "10:00",
-    shotClock :"30"
+    shotClock :"30",
+    homeScore: 0,
+    awayScore: 0
   }
 
   let tl: gsap.core.Timeline;
@@ -55,19 +57,16 @@
   webcg.on("play", () => tl.play());
   webcg.on("stop", () => tl.play());
   webcg.on("data", (data) => {
-    home.score = data.homeScore;
-    home = home;
-    away.score = data.awayScore;
-    info.period = data.period;
+    info = {...info, ...data}
   });
 </script>
 
 <main id="app">
   <div id="scorebug" class="container anim1">
     <TeamArea teamName={away.name} teamColor={away.color} />
-    <ScoreArea score={away.score} teamSecondary={away.secondary} />
+    <ScoreArea score={info.awayScore} teamSecondary={away.secondary} />
     <TeamArea teamName={home.name} teamColor={home.color} />
-    <ScoreArea score={home.score} teamSecondary={home.secondary} />
+    <ScoreArea score={info.homeScore} teamSecondary={home.secondary} />
 
     <InfoArea period={info.period} gameClock={info.clock} shotClock={info.shotClock} />
 
